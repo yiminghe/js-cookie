@@ -35,6 +35,26 @@ QUnit.test('cookie-value with double quotes in the right', function (assert) {
 })
 
 QUnit.test(
+  'RFC 6265 - characters not allowed in the cookie-value "!\'()*"',
+  function (assert) {
+    using(assert)
+      .setCookie('c', "!'()*")
+      .then(function (decodedValue, plainValue) {
+        assert.strictEqual(
+          decodedValue,
+          "!'()*",
+          'should handle the "!\'()*" characters'
+        )
+        assert.strictEqual(
+          plainValue,
+          'c=%21%27%28%29%2A',
+          'whitespace is not allowed, need to encode'
+        )
+      })
+  }
+)
+
+QUnit.test(
   'RFC 6265 - character not allowed in the cookie-value " "',
   function (assert) {
     using(assert)
